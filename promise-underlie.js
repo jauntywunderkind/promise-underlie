@@ -1,5 +1,3 @@
-import IterPrototype from "iter-prototype/iter-prototype.js"
-
 export function promiseUnderlie( klass, opt= {}){
 	const props= makeProperties( opt)
 	Object.defineProperties( klass.prototype, props)
