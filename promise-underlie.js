@@ -1,8 +1,8 @@
 import IterPrototype from "iter-prototype/iter-prototype.js"
 
-export function promiseUnderlie( klass, opt){
+export function promiseUnderlie( klass, opt= {}){
 	const props= makeProperties( opt)
-	Object.defineProperties( klass, props)
+	Object.defineProperties( klass.prototype, props)
 	const hasInstance= makeHasInstance( klass, ...(opt.instances||[ ]))
 	Object.defineProperty( klass, Symbol.hasInstance,{
 		value: hasInstance
@@ -32,7 +32,7 @@ export function makeFunctions( opt= {}){
 
 export function makeProperties( opt= {}){
 	const props= makeFunctions( opt)
-	for( let o of props){
+	for( let o in props){
 		props[ o]= {
 			value: props[ o],
 			configurable: opt.configurable|| false,
@@ -40,13 +40,16 @@ export function makeProperties( opt= {}){
 			writable: opt.writable|| false,
 		}
 	}
-	return fns
+	return props
 }
 
 export function makeHasInstance( ...klasses){
 	return function hasInstance( instance){
 		for( let proto of IterPrototype( instance)){
 			if( klasses.indexOf( proto)!== -1){
+				return true
+			}
+			if( proto=== Promise){
 				return true
 			}
 		}
