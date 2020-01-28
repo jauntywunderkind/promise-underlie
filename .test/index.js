@@ -15,8 +15,8 @@ tape( "then", async function( t){
 tape( "finally", async function( t){
 	t.plan( 1)
 	const f42= new Fixture42()
-	f42.finally( function( value){
-		t.ok( "finally")
+	f42.finally( function(){
+		t.pass( "finally")
 		t.end()
 	})
 })
@@ -24,13 +24,13 @@ tape( "finally", async function( t){
 tape( "instanceof Promise", async function( t){
 	t.plan( 1)
 	const f42= new Fixture42()
-	t.ok( f42 instanceof Promise, "promise")
+	t.ok( f42 instanceof Promise, "is-promise")
 	t.end()
 })
 
 tape( "instanceof Fixture42", async function( t){
 	t.plan( 1)
 	const f42= new Fixture42()
-	t.ok( f42 instanceof Fixture42, "fixture")
+	t.ok( f42 instanceof Fixture42, "is-fixture")
 	t.end()
 })

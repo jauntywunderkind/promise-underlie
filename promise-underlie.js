@@ -3,10 +3,7 @@ import IterPrototype from "iter-prototype/iter-prototype.js"
 export function promiseUnderlie( klass, opt= {}){
 	const props= makeProperties( opt)
 	Object.defineProperties( klass.prototype, props)
-	const hasInstance= makeHasInstance( klass, ...(opt.instances||[ ]))
-	Object.defineProperty( klass, Symbol.hasInstance,{
-		value: hasInstance
-	})
+	_promiseClasses.push( klass)
 	return klass
 }
 export default promiseUnderlie
@@ -43,16 +40,22 @@ export function makeProperties( opt= {}){
 	return props
 }
 
-export function makeHasInstance( ...klasses){
-	return function hasInstance( instance){
-		for( let proto of IterPrototype( instance)){
-			if( klasses.indexOf( proto)!== -1){
-				return true
-			}
-			if( proto=== Promise){
-				return true
-			}
-		}
-		return false
+
+const
+	_promiseClasses=[ ],
+	_promiseHasInstance= Promise[ Symbol.hasInstance]
+export function hasInstance( instance){
+	if( _promiseHasInstance.call( Promise, instance)){
+		return true
 	}
+	for( let klass of _promiseClasses){
+		if( Object[ Symbol.hasInstance].call( klass, instance)){
+			return true
+		}
+	}
+	return false
 }
+// monkeypatch Promise
+Object.defineProperty( Promise, Symbol.hasInstance, {
+	value: hasInstance
+})
