@@ -1,0 +1,22 @@
+{
+	"name": "promise-underlie",
+	"version": "1.0.0",
+	"description": "make a class promise-like, forwarding to an underlying promise",
+	"main": "promise-underlie.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://archive.voodoowarez.com/promise-underlie"
+	},
+	"keywords": [],
+	"author": "jauntywunderkind",
+	"license": "MIT",
+	"module": "promise-underlie.js",
+	"esm": true,
+	"type": "module",
+	"dependencies": {
+		"iter-prototype": "^1.0.0"
+	}
+}
